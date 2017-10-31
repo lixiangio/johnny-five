@@ -1,0 +1,39 @@
+{
+   "init": true,
+   "sensor": {
+      "A0": {
+         "name": "A0水位传感器",
+         "stroke": {
+            "min": 1024,
+            "max": 0
+         },
+         "limit": {
+            "lower ": 85,
+            "expect": 90,
+            "upper": 95
+         }
+      },
+      "A1": {
+         "name": "A1位置传感器",
+         "stroke": {
+            "min": 1024,
+            "max": 0
+         },
+         "limit": {
+            "lower ": 85,
+            "expect": 90,
+            "upper": 95
+         }
+      }
+   },
+   "actuator": {
+      "P10": {
+         "name": "一号阀门私服电机加水",
+         "value": 0
+      },
+      "P11": {
+         "name": "一号阀门私服电机减水",
+         "value": 0
+      }
+   }
+}

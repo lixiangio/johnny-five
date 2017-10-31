@@ -1,8 +1,3 @@
-let five = require("johnny-five")
-
-let min = 85
-let max = 95
-let expect = 90
 let trend = 0// 水位变化方向，0、正常，1、加水，-1、减水
 let interval = 60 * 1000// 调节等待时间，以秒为单位
 
@@ -15,15 +10,19 @@ let last = {
 
 module.exports = function () {
 
+   let { five, config } = this
+   let { sensor, actuator } = config
+   let { A0: a0, A1: a1 } = sensor
+
    let A0 = new five.Sensor({
       pin: 'A0',
       freq: 250,
-   }).scale([0, 500])
+   })
 
    let A1 = new five.Sensor({
       pin: 'A1',
       freq: 250,
-   }).scale([0, 500])
+   })
 
    let P10 = new five.Pin(10)// 加
    let P11 = new five.Pin(11)// 减
@@ -32,10 +31,10 @@ module.exports = function () {
    A0.on("data", function () {
 
       // 高于警戒值
-      if (A0.value > max) {
+      if (A0.value > a0.limit.max) {
 
          // 电机行程保护
-         if (A1.value === 100) {
+         if (A1.value >= a1.stroke.max) {
             if (P10.value === 1) {
                P10.low()
                P11.low()
@@ -53,10 +52,10 @@ module.exports = function () {
       }
 
       // 低于警戒值
-      else if (A0.value < min) {
+      else if (A0.value < a0.limit.min) {
 
          // 电机行程保护
-         if (A1.value === 0) {
+         if (A1.value <= a1.stroke.min) {
             if (P11.value === 1) {
                P10.low()
                P11.low()
@@ -97,7 +96,7 @@ module.exports = function () {
 
          // 由高位切换至正常范围
          if (trend === 1) {
-            if (A0.value < expect) {
+            if (A0.value < a0.limit.expect) {
                trend = 0
                if (P10.value === 1) {
                   P10.low()
@@ -108,7 +107,7 @@ module.exports = function () {
 
          // 由低位切换至正常范围
          else if (trend === -1) {
-            if (A0.value > expect) {
+            if (A0.value > a0.limit.expect) {
                trend = 0
                if (P11.value === 1) {
                   P10.low()
