@@ -4,20 +4,25 @@ module.exports = function () {
    let { sensor, actuator } = config
    let { A0: a0, A1: a1 } = sensor
 
+   let before = {
+      'B8': 0
+   }
+
    let A0 = new five.Sensor({
       pin: 'A0',
-      freq: 250,
+      // freq: 250,
    })
 
    let A1 = new five.Sensor({
       pin: 'A1',
-      freq: 250,
+      // freq: 250,
    })
 
-   // let button = new five.Button(8)
+   let B8 = new five.Button(8)
+   let L9 = new five.Led(9)
 
-   // let P10 = new five.Pin(10)
-   // let P11 = new five.Pin(11)
+   let P12 = new five.Pin(12)
+   let P13 = new five.Pin(13)
 
    A0.on("data", function () {
 
@@ -35,8 +40,19 @@ module.exports = function () {
          a1.stroke.max = A1.value
       }
 
-      console.log(sensor.A0)
-      console.log(sensor.A1)
+      if (B8.value !== before.B8) {
+         if (B8.value === 1) {
+            L9.on()
+         } else {
+            L9.off()
+         }
+         before.B8 = B8.value
+         console.log(B8.value)
+      }
+
+      console.log(a0.stroke)
+      console.log(a1.stroke)
+      // console.log(A0.value)
 
    })
 

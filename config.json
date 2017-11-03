@@ -1,11 +1,11 @@
 {
-   "init": true,
+   "init": false,
    "sensor": {
       "A0": {
          "name": "A0水位传感器",
          "stroke": {
-            "min": 15,
-            "max": 1010
+            "min": 1024,
+            "max": 0
          },
          "limit": {
             "min ": 85,
@@ -16,8 +16,8 @@
       "A1": {
          "name": "A1阀门位置传感器",
          "stroke": {
-            "min": 15,
-            "max": 1010
+            "min": 1024,
+            "max": 0
          },
          "limit": {
             "min ": 85,
