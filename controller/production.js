@@ -8,9 +8,8 @@ let last = {
    date: new Date()//调整时间
 }
 
-module.exports = function () {
+module.exports = function ({ five, config }) {
 
-   let { five, config } = this
    let { sensor, actuator } = config
    let { A0: a0, A1: a1 } = sensor
 
