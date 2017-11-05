@@ -1,9 +1,13 @@
 let http = require("http")
 
-http.createServer(function (request, response) {
+module.exports = async App => {
 
-   response.writeHead(200, { 'Content-Type': 'text/plain' });
+   http.createServer(function (request, response) {
 
-   response.end(JSON.stringify(config));
+      response.writeHead(200, { 'Content-Type': 'text/plain' });
 
-}).listen(80)
+      response.end(JSON.stringify(App.config));
+
+   }).listen(80)
+
+}
