@@ -1,41 +1,62 @@
 {
-   "init": false,
-   "sensor": {
-      "A0": {
-         "name": "A0水位传感器",
-         "stroke": {
-            "min": 1024,
-            "max": 0
-         },
-         "limit": {
-            "min ": 85,
-            "expect": 90,
-            "max": 95
-         }
-      },
-      "A1": {
-         "name": "A1阀门位置传感器",
-         "stroke": {
-            "min": 1024,
-            "max": 0
-         },
-         "limit": {
-            "min ": 85,
-            "expect": 90,
-            "max": 95
-         }
-      }
-   },
-   "actuator": {
-      "P10": {
-         "name": "A1私服电机正转",
-         "pin": 10,
-         "value": 0
-      },
-      "P11": {
-         "name": "A1私服电机反转",
-         "pin": 11,
-         "value": 0
-      }
-   }
+    "init": false,
+    "button": {
+        "8": {
+            "name": "适配开关"
+        }
+    },
+    "led": {
+        "9": {
+            "name": "适配指示灯"
+        },
+        "10": {
+            "name": "故障指示灯"
+        },
+        "11": {
+            "name": "工作指示灯",
+            "default": true
+        }
+    },
+    "sensor": {
+        "A0": {
+            "name": "水位传感器",
+            "stroke": {
+                "min": 601,
+                "max": 602
+            },
+            "limit": {
+                "min ": 85,
+                "max": 95,
+                "expect": 90
+            }
+        },
+        "A1": {
+            "name": "阀门位置传感器",
+            "stroke": {
+                "min": 588,
+                "max": 589
+            },
+            "limit": {
+                "min ": 85,
+                "expect": 90,
+                "max": 95
+            }
+        }
+    },
+    "actuator": [
+        {
+            "name": "私服电机",
+            "type": "motor",
+            "pins": [
+                {
+                    "pin": 10,
+                    "value": 0
+                },
+                {
+                    "pin": 11,
+                    "value": 0
+                }
+            ]
+        }
+    ]
 }

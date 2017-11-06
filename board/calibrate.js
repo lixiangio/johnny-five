@@ -1,34 +1,44 @@
-module.exports = function ({ five, config }) {
+let fs = require("fs")
 
-   let { sensor, actuator } = config
-   let { A0: a0, A1: a1 } = sensor
+module.exports = App => {
 
-   let before = {
-      'B8': 0
-   }
+   let { Config, Button, Led, Sensor } = App
 
-   let A0 = new five.Sensor({
-      pin: 'A0',
-      // freq: 250,
-   })
+   let { sensor: { A0: a0, A1: a1 } } = Config
+   let { B8, } = Button
+   let { L9, } = Led
+   let { A0, A1, } = Sensor
 
-   let A1 = new five.Sensor({
-      pin: 'A1',
-      // freq: 250,
-   })
-
-   let button_adapter = new five.Button(8)
-
-   let led_power_supplyr = new five.Pin(11)
-   let led_fault = new five.Pin(10)
-   let led_adapter = new five.Pin(9)
-
-   setTimeout(function () {
-      led_adapter.high()
-      led_fault.high()
-   }, 1000)
+   B8.before = 0
 
    A0.on("data", function () {
+
+      if (B8.value === B8.before) {
+         if (B8.value) {
+            if (!B8.time) {
+               B8.time = Date.now()
+            }
+            if (Date.now() - B8.time > 3000) {
+               if (L9.value) {
+                  let json = JSON.stringify(Config, null, 4)
+                  fs.writeFile("./config/board.json", json, function (err) {
+                     if (err) {
+                        return console.log(err)
+                     }
+                  })
+                  L9.off()
+               } else {
+                  // 切换到生产模式
+                  L9.on()
+               }
+               B8.time = 0
+            }
+         } else {
+            B8.time = 0
+         }
+      }
+
+      B8.before = B8.value
 
       if (A0.value < a0.stroke.min) {
          a0.stroke.min = A0.value
@@ -46,25 +56,11 @@ module.exports = function ({ five, config }) {
          a1.stroke.max = A1.value
       }
 
-      // let tolerance = 1 - A1.value / a1.stroke.max
-      // if (tolerance < 0.005 || tolerance < -0.005) {
-      //    console.log(tolerance)
-      // }
-
-      if (button_adapter.value !== before.B8) {
-         if (button_adapter.value === 1) {
-            led_adapter.low()
-         } else {
-            led_adapter.high()
-         }
-         before.B8 = button_adapter.value
-         console.log(button_adapter.value)
-      }
-
-      // console.log(a0.stroke)
-      // console.log(a1.stroke)
-      // console.log(A0.value)
+      console.log(a0.stroke)
+      console.log(a1.stroke)
+      console.log(A0.value, A1.value)
 
    })
+
 
 }
