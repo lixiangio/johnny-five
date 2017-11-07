@@ -31,7 +31,6 @@ module.exports = App => {
                   // 切换到生产模式
                   L9.on()
                }
-               B8.time = 0
             }
          } else {
             B8.time = 0
