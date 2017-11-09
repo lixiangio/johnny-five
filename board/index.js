@@ -29,7 +29,7 @@ module.exports = App => {
          for (let pin in Config.led) {
             let item = Config.led[pin]
             if (!item.default) {
-               Led[`L${pin}`].on()
+               Led[`L${pin}`].off()
             }
          }
       })
