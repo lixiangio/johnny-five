@@ -1,45 +1,37 @@
-let { five, Config, Button, Led, Sensor, Actuator } = App
-let { sensor: { A0: a0, A1: a1 } } = Config
-let { B11 } = Button
-let { L12, L13 } = Led
-let { A0, A1 } = Sensor
-
-let P10 = new five.Pin(10)// 加
-let P11 = new five.Pin(11)// 减
-
+let { five, config, Led, Sensor, Actuator } = App
+let { sensor: { 0: s0, 1: s1 } } = config
+let { S0, S1 } = Sensor
 let { A8, A9 } = Actuator
 
-
-// 水位变化方向，0、正常，1、加水，-1、减水
-let trend = 0
+let trend = 0 // 趋势，0、正常，1、升，-1、降
 
 // 调节等待时间，以秒为单位
 let interval = 60 * 1000
 
 // 上次调整记录
 let last = {
-   A0: 100,//前池水位传感器
-   A1: 100,//一号阀门位置传感器
+   S0: 100,//前池水位传感器
+   S1: 100,//一号阀门位置传感器
    date: new Date()//调整时间
 }
 
 module.exports = function Action() {
 
    // 高于警戒值
-   if (A0.value > a0.limit.max) {
+   if (S0.value > s0.limit.max) {
 
       // 电机行程保护
-      if (A1.value >= a1.stroke.max) {
-         if (P10.value === 1) {
-            P10.low()
-            P11.low()
+      if (S1.value >= s1.stroke.max) {
+         if (A8.value === 1) {
+            A8.low()
+            A9.low()
          }
          return
       }
 
-      if (P10.value === 0) {
-         P10.high()
-         P11.low()
+      if (A8.value === 0) {
+         A8.high()
+         A9.low()
       }
 
       trend = 1
@@ -47,13 +39,13 @@ module.exports = function Action() {
    }
 
    // 低于警戒值
-   else if (A0.value < a0.limit.min) {
+   else if (S0.value < s0.limit.min) {
 
       // 电机行程保护
-      if (A1.value <= a1.stroke.min) {
-         if (P11.value === 1) {
-            P10.low()
-            P11.low()
+      if (S1.value <= s1.stroke.min) {
+         if (A9.value === 1) {
+            A8.low()
+            A9.low()
          }
          return
       }
@@ -65,21 +57,21 @@ module.exports = function Action() {
       // }
 
       // 趋势判断(如果增长率大于2%，则不用调节)
-      // let change = A0.value - last.A0
+      // let change = S0.value - last.S0
       // if (change > 2) {
       //    return
       // }
 
       // 多级调价
-      // if (A1.value < last.A1 + 5) {
-      //    P10.low()
-      //    P11.high()
+      // if (S1.value < last.S1 + 5) {
+      //    A8.low()
+      //    A9.high()
       //    return
       // }
 
-      if (P11.value === 0) {
-         P10.low()
-         P11.high()
+      if (A9.value === 0) {
+         A8.low()
+         A9.high()
       }
 
       trend = -1
@@ -91,36 +83,36 @@ module.exports = function Action() {
 
       // 由高位切换至正常范围
       if (trend === 1) {
-         if (A0.value < a0.limit.expect) {
+         if (S0.value < s0.limit.expect) {
             trend = 0
-            if (P10.value === 1) {
-               P10.low()
-               P11.low()
+            if (A8.value === 1) {
+               A8.low()
+               A9.low()
             }
          }
       }
 
       // 由低位切换至正常范围
       else if (trend === -1) {
-         if (A0.value > a0.limit.expect) {
+         if (S0.value > s0.limit.expect) {
             trend = 0
-            if (P11.value === 1) {
-               P10.low()
-               P11.low()
+            if (A9.value === 1) {
+               A8.low()
+               A9.low()
             }
          }
       }
 
    }
 
-   if (P10.value) {
+   if (A8.value) {
       log = '加'
-   } else if (P11.value) {
+   } else if (A9.value) {
       log = '减'
    } else {
       log = '停'
    }
 
-   console.log(log, '前池水位：' + A0.value, '阀门开度：' + A1.value, trend, P10.value)
+   console.log(log, '前池水位：' + S0.value, '阀门开度：' + S1.value, trend, A8.value)
 
 }
