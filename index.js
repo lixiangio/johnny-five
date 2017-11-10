@@ -1,5 +1,5 @@
-// arduino
+// Arduino
 require("./board/")
 
-// web控制台
-// require("./console/")
+// Web控制台
+// require("./server/")

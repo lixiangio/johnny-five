@@ -1,7 +1,7 @@
 {
    "verbose": true,
    "ignore": [
-      "config/*",
+      "board/*.json",
       "node_modules/*"
    ]
 }
