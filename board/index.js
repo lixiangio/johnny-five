@@ -1,48 +1,58 @@
-let production = require("./production.js")
-let calibrate = require("./calibrate.js")
+let { five, board, Config } = App
 
-module.exports = App => {
+board.on("ready", async function () {
 
-   let { five, board, Config, Button, Sensor, Led } = App
+   // 创建指示灯
+   App.Led = {}
+   for (let pin in Config.led) {
+      App.Led[`L${pin}`] = new five.Led(pin)
+      App.Led[`L${pin}`].on()
+   }
 
-   board.on("ready", async function () {
+   // 创建按钮
+   App.Button = {}
+   for (let pin in Config.button) {
+      App.Button[`B${pin}`] = new five.Button(pin)
+   }
 
-      // 创建LED指示灯
+   // 创建传感器
+   App.Sensor = {}
+   for (let pin in Config.sensor) {
+      App.Sensor[`S${pin}`] = new five.Sensor(`A${pin}`)
+   }
+
+   // 创建执行器
+   App.Actuator = {}
+   for (let pin in Config.actuator) {
+      App.Actuator[`A${pin}`] = new five.Relay(pin)
+      // App.Actuator[`A${pin}`].close()
+   }
+
+   // 检查指示灯
+   await new Promise(function (resolve, reject) {
+      setTimeout(resolve, 2000)
+   }).then(() => {
       for (let pin in Config.led) {
-         Led[`L${pin}`] = new five.Led(pin)
-      }
-
-      // 创建按钮
-      for (let pin in Config.button) {
-         Button[`B${pin}`] = new five.Button(pin)
-      }
-
-      // 创建传感器
-      for (let pin in Config.sensor) {
-         Sensor[pin] = new five.Sensor(pin)
-      }
-
-      // 指示灯检查
-      await new Promise(function (resolve, reject) {
-         setTimeout(resolve, 2000)
-      }).then(() => {
-         for (let pin in Config.led) {
-            let item = Config.led[pin]
-            if (!item.default) {
-               Led[`L${pin}`].off()
-            }
+         let item = Config.led[pin]
+         if (!item.default) {
+            App.Led[`L${pin}`].off()
          }
-      })
-
-      if (Config.init) {
-         // 生产模式
-         production(App)
-      } else {
-         // 适配模式
-         calibrate(App)
       }
-
    })
 
-}
+   App.production = require("./production.js")
+   App.calibrate = require("./calibrate.js")
 
+   if (Config.init) {
+      // 生产模式
+      App.Action = App.production
+   } else {
+      // 适配模式
+      App.Action = App.calibrate
+   }
+
+   setInterval(function () {
+      App.Action()
+   }, 200)
+
+})

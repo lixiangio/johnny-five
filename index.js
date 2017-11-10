@@ -2,17 +2,14 @@ let Config = require('./config/board.json')
 let five = require("johnny-five")
 let board = new five.Board()
 
-let App = {
+global.App = {
    five,
    board,
    Config,
-   Button: {},
-   Sensor: {},
-   Led: {},
 }
 
-// web控制台
-require("./server/")(App)
+// arduino
+require("./board/")
 
-// 硬件
-require("./board/")(App)
+// web控制台
+require("./console/")
