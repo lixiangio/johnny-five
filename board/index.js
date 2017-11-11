@@ -46,24 +46,10 @@ board.on("ready", async function () {
       }
    }
 
-   return
-
    // 创建执行器
    for (let pin in config.actuator) {
       Actuator[`A${pin}`] = new five.Pin(pin)
    }
-
-   // 检查指示灯
-   // await new Promise(function (resolve, reject) {
-   //    setTimeout(resolve, 3000)
-   // }).then(() => {
-   //    for (let pin in config.led) {
-   //       let item = config.led[pin]
-   //       if (!item.default) {
-   //          Led[`L${pin}`].off()
-   //       }
-   //    }
-   // })
 
    require("./control.js")
 

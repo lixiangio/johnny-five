@@ -12,14 +12,14 @@ let interval = 60 * 1000
 let lastData = {
    S0: 100,//前池水位传感器
    S1: 100,//一号阀门位置传感器
-   date: new Date()//调整时间
+   date: new Date(),//调整时间
 }
 
 module.exports = function () {
 
    // 高于警戒值
    if (S0.value > s0.$limit.max) {
-      
+
       // 电机行程保护
       if (S1.value >= s1.stroke.max) {
          if (A8.value === 1) {
@@ -113,6 +113,6 @@ module.exports = function () {
       log = '停'
    }
 
-   console.log(log, '前池水位：' + S0.value, '阀门开度：' + S1.value, trend, A8.value)
+   console.log(log, '前池水位：' + S0.value, '阀门开度：' + S1.value, '趋势：' + trend, '私服电机反转：' + A8.value)
 
 }
