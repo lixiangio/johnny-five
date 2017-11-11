@@ -46,7 +46,6 @@ board.on("ready", async function () {
       }
    }
 
-   console.log(config.sensor[0])
    return
 
    // 创建执行器

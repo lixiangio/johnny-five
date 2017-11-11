@@ -17,11 +17,9 @@ let lastData = {
 
 module.exports = function () {
 
-   console.log(s0.$limit)
-
    // 高于警戒值
-   if (S0.value > s0.limit.max) {
-
+   if (S0.value > s0.$limit.max) {
+      
       // 电机行程保护
       if (S1.value >= s1.stroke.max) {
          if (A8.value === 1) {
@@ -41,7 +39,7 @@ module.exports = function () {
    }
 
    // 低于警戒值
-   else if (S0.value < s0.limit.min) {
+   else if (S0.value < s0.$limit.min) {
 
       // 电机行程保护
       if (S1.value <= s1.stroke.min) {
@@ -85,7 +83,7 @@ module.exports = function () {
 
       // 由高位切换至正常范围
       if (trend === 1) {
-         if (S0.value < s0.limit.expect) {
+         if (S0.value < s0.$limit.expect) {
             trend = 0
             if (A8.value === 1) {
                A8.low()
@@ -96,7 +94,7 @@ module.exports = function () {
 
       // 由低位切换至正常范围
       else if (trend === -1) {
-         if (S0.value > s0.limit.expect) {
+         if (S0.value > s0.$limit.expect) {
             trend = 0
             if (A9.value === 1) {
                A8.low()
