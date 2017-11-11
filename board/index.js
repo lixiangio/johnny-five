@@ -17,7 +17,12 @@ board.on("ready", async function () {
    // 创建指示灯
    for (let pin in config.led) {
       Led[`L${pin}`] = new five.Led(pin)
-      Led[`L${pin}`].on()
+      let item = config.led[pin]
+      if (item.default === true) {
+         Led[`L${pin}`].on()
+      } else {
+         Led[`L${pin}`].off()
+      }
    }
 
    // 创建按钮
@@ -38,16 +43,16 @@ board.on("ready", async function () {
    }
 
    // 检查指示灯
-   await new Promise(function (resolve, reject) {
-      setTimeout(resolve, 2000)
-   }).then(() => {
-      for (let pin in config.led) {
-         let item = config.led[pin]
-         if (!item.default) {
-            Led[`L${pin}`].off()
-         }
-      }
-   })
+   // await new Promise(function (resolve, reject) {
+   //    setTimeout(resolve, 3000)
+   // }).then(() => {
+   //    for (let pin in config.led) {
+   //       let item = config.led[pin]
+   //       if (!item.default) {
+   //          Led[`L${pin}`].off()
+   //       }
+   //    }
+   // })
 
    require("./control.js")
 
