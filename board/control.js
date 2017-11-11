@@ -25,8 +25,6 @@ B10.on("press", function () {
 
    }
 
-   B11.time = Date.now()
-
 })
 
 B11.on("press", function () {
