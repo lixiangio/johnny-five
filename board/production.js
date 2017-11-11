@@ -9,7 +9,7 @@ let trend = 0 // 趋势，0、正常，1、升，-1、降
 let interval = 60 * 1000
 
 // 上次调整记录
-let last = {
+let lastData = {
    S0: 100,//前池水位传感器
    S1: 100,//一号阀门位置传感器
    date: new Date()//调整时间
@@ -52,18 +52,18 @@ module.exports = function () {
 
       // 等待状态，小于60秒不执行
       // let date = new Date()
-      // if (date - last.date < interval) {
+      // if (date - lastData.date < interval) {
       //    return
       // }
 
       // 趋势判断(如果增长率大于2%，则不用调节)
-      // let change = S0.value - last.S0
+      // let change = S0.value - lastData.S0
       // if (change > 2) {
       //    return
       // }
 
       // 多级调价
-      // if (S1.value < last.S1 + 5) {
+      // if (S1.value < lastData.S1 + 5) {
       //    A8.low()
       //    A9.high()
       //    return

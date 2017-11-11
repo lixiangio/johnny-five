@@ -94,7 +94,6 @@ B11.on("release", function () {
 
 })
 
-
 if (config.init) {
    // 生产模式
    App.action = App.production
