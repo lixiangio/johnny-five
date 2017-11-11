@@ -21,6 +21,7 @@ module.exports = function () {
    }
 
    console.log(s0.stroke)
+   
    // console.log(s1.stroke)
    // console.log(S0.value, S1.value)
 

@@ -17,6 +17,8 @@ let lastData = {
 
 module.exports = function () {
 
+   console.log(s0.$limit)
+
    // 高于警戒值
    if (S0.value > s0.limit.max) {
 

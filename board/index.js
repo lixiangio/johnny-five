@@ -35,7 +35,19 @@ board.on("ready", async function () {
    // 创建传感器
    for (let pin in config.sensor) {
       Sensor[`S${pin}`] = new five.Sensor(`A${pin}`)
+      let item = config.sensor[pin]
+      if (item.limit) {
+         let difference = item.stroke.max - item.stroke.min
+         item.$limit = {
+            min: item.stroke.min + Math.round(difference * (item.limit.min * 0.01)),
+            max: item.stroke.min + Math.round(difference * (item.limit.max * 0.01)),
+            expect: item.stroke.min + Math.round(difference * (item.limit.expect * 0.01)),
+         }
+      }
    }
+
+   console.log(config.sensor[0])
+   return
 
    // 创建执行器
    for (let pin in config.actuator) {

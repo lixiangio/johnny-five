@@ -25,25 +25,35 @@
         "0": {
             "name": "水位传感器",
             "stroke": {
-                "min": 1013,
+                "min": 36,
                 "max": 1014
             },
             "limit": {
                 "min ": 85,
                 "max": 95,
                 "expect": 90
+            },
+            "$limit": {
+                "min": null,
+                "max": 1014,
+                "expect": 1014
             }
         },
         "1": {
             "name": "阀门位置传感器",
             "stroke": {
-                "min": 1012,
-                "max": 1013
+                "min": 0,
+                "max": 1014
             },
             "limit": {
                 "min ": 85,
                 "expect": 90,
                 "max": 95
+            },
+            "$limit": {
+                "min": null,
+                "max": 1013,
+                "expect": 1013
             }
         }
     },
