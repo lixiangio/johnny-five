@@ -22,7 +22,9 @@ board.on("ready", async function () {
 
    // 创建按钮
    for (let pin in config.button) {
-      Button[`B${pin}`] = new five.Button(pin)
+      let item = config.button[pin]
+      item.pin = pin
+      Button[`B${pin}`] = new five.Button(item)
    }
 
    // 创建传感器
@@ -47,24 +49,6 @@ board.on("ready", async function () {
       }
    })
 
-   let control = require("./control.js")
-   App.production = require("./production.js")
-   App.calibrate = require("./calibrate.js")
-
-   if (config.init) {
-      // 生产模式
-      App.action = App.production
-   } else {
-      // 适配模式
-      App.action = App.calibrate
-   }
-
-   setInterval(function () {
-
-      control()
-
-      App.action()
-
-   }, 100)
+   require("./control.js")
 
 })
