@@ -15,7 +15,7 @@ let last = {
    date: new Date()//调整时间
 }
 
-module.exports = function Action() {
+module.exports = function () {
 
    // 高于警戒值
    if (S0.value > s0.limit.max) {

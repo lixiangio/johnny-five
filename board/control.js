@@ -1,20 +1,46 @@
 let fs = require("fs")
 let { config, Led, Button } = App
 let { L12, L13 } = Led
-let { B11 } = Button
+let { B10, B11 } = Button
 App.production = require("./production.js")
 App.calibrate = require("./calibrate.js")
 App.stop = require("./stop.js")
 B11.lastState = 0
 B11.lock = false
 
+B10.on("press", function () {
+
+   // 生产模式下短按，执行运行/暂停操作
+   if (L12.value === 0) {
+
+      if (App.action === App.production) {
+         App.action = App.stop
+         L13.blink(500)
+         console.log("暂停")
+      } else {
+         App.action = App.production
+         L13.stop().on()
+         console.log("工作")
+      }
+
+   }
+
+   B11.time = Date.now()
+
+})
+
+B11.on("press", function () {
+
+   // 记录按下时的时间
+   B11.time = Date.now()
+
+})
+
 B11.on("hold", function () {
 
    let now = Date.now()
 
    if (B11.lock === false) {
-
-      B11.lock = true
 
       // 长按，表示模式切换
       if (now - B11.time > 3000) {
@@ -30,7 +56,6 @@ B11.on("hold", function () {
                }
             })
             L12.off()
-            L13.stop().on()
             App.action = App.production
             console.log('当前为生产模式')
 
@@ -40,7 +65,6 @@ B11.on("hold", function () {
          else {
 
             L12.on()
-            L13.blink()
             App.action = App.calibrate
 
             // 传感器初始化
@@ -56,25 +80,8 @@ B11.on("hold", function () {
 
          }
 
-      }
+         B11.lock = true
 
-   }
-
-})
-
-B11.on("press", function () {
-
-   // 生产模式下短按，执行运行/暂停操作
-   if (L12.value === 0) {
-
-      if (App.action === App.production) {
-         App.action = App.stop
-         L13.blink(500)
-         console.log("暂停")
-      } else {
-         App.action = App.production
-         L13.stop().on()
-         console.log("工作")
       }
 
    }
