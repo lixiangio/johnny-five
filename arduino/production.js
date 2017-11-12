@@ -17,8 +17,12 @@ let lastData = {
 
 module.exports = function () {
 
-   // 高于警戒值
-   if (S0.value > s0.$limit.max) {
+   console.log(S0.limit)
+
+   // 大于警戒值
+   if (S0.value > S0.limit.max) {
+
+      trend = 1
 
       // 电机行程保护
       if (S1.value >= s1.stroke.max) {
@@ -34,12 +38,12 @@ module.exports = function () {
          A9.low()
       }
 
-      trend = 1
-
    }
 
-   // 低于警戒值
-   else if (S0.value < s0.$limit.min) {
+   // 小于警戒值
+   else if (S0.value < S0.limit.min) {
+
+      trend = -1
 
       // 电机行程保护
       if (S1.value <= s1.stroke.min) {
@@ -74,8 +78,6 @@ module.exports = function () {
          A9.high()
       }
 
-      trend = -1
-
    }
 
    // 正常范围
@@ -83,7 +85,7 @@ module.exports = function () {
 
       // 由高位切换至正常范围
       if (trend === 1) {
-         if (S0.value < s0.$limit.expect) {
+         if (S0.value < S0.limit.expect) {
             trend = 0
             if (A8.value === 1) {
                A8.low()
@@ -94,7 +96,7 @@ module.exports = function () {
 
       // 由低位切换至正常范围
       else if (trend === -1) {
-         if (S0.value > s0.$limit.expect) {
+         if (S0.value > S0.limit.expect) {
             trend = 0
             if (A9.value === 1) {
                A8.low()
@@ -113,6 +115,6 @@ module.exports = function () {
       log = '停'
    }
 
-   console.log(log, '前池水位：' + S0.value, '阀门开度：' + S1.value, '趋势：' + trend, '私服电机反转：' + A8.value)
+   // console.log(log, '前池水位：' + S0.value, '阀门开度：' + S1.value, '趋势：' + trend, '私服电机反转：' + A8.value)
 
 }

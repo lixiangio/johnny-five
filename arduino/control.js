@@ -1,5 +1,5 @@
 let fs = require("fs")
-let { config, Led, Button } = App
+let { config, Led, Button, Sensor } = App
 let { L12, L13 } = Led
 let { B10, B11 } = Button
 
@@ -50,6 +50,7 @@ B11.on("hold", function () {
          if (L12.value) {
 
             config.init = true
+
             let json = JSON.stringify(config, null, 4)
             fs.writeFile("./arduino/config.json", json, function (err) {
                if (err) {
@@ -57,7 +58,7 @@ B11.on("hold", function () {
                }
             })
             L12.off()
-            
+
             if (B10.stop) {
                App.action = App.stop
                console.log('切换为生产模式 - 暂停状态')
@@ -65,7 +66,7 @@ B11.on("hold", function () {
                App.action = App.production
                console.log('切换为生产模式 - 工作状态')
             }
-            
+
 
          }
 
@@ -81,6 +82,14 @@ B11.on("hold", function () {
                item.stroke = {
                   min: 1024,
                   max: 0,
+               }
+               if (item.limit) {
+                  let difference = item.stroke.max - item.stroke.min
+                  Sensor[`S${pin}`].limit = {
+                     min: item.stroke.min + Math.round(difference * (item.limit.min * 0.01)),
+                     max: item.stroke.min + Math.round(difference * (item.limit.max * 0.01)),
+                     expect: item.stroke.min + Math.round(difference * (item.limit.expect * 0.01)),
+                  }
                }
             }
 

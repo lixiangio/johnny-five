@@ -38,7 +38,7 @@ board.on("ready", async function () {
       let item = config.sensor[pin]
       if (item.limit) {
          let difference = item.stroke.max - item.stroke.min
-         item.$limit = {
+         Sensor[`S${pin}`].limit = {
             min: item.stroke.min + Math.round(difference * (item.limit.min * 0.01)),
             max: item.stroke.min + Math.round(difference * (item.limit.max * 0.01)),
             expect: item.stroke.min + Math.round(difference * (item.limit.expect * 0.01)),
