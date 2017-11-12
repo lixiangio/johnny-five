@@ -50,7 +50,7 @@ B11.on("hold", function () {
 
             config.init = true
             let json = JSON.stringify(config, null, 4)
-            fs.writeFile("./board/config.json", json, function (err) {
+            fs.writeFile("./arduino/config.json", json, function (err) {
                if (err) {
                   return console.log(err)
                }
