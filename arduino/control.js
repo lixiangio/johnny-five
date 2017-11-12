@@ -12,9 +12,10 @@ B11.lock = false
 
 B10.on("press", function () {
 
-   // 生产模式下短按，执行运行/暂停操作
+   // 适配模式下禁止操作
    if (L12.value === 0) {
 
+      // 生产模式下短按，执行运行/暂停操作
       if (App.action === App.production) {
          App.action = App.stop
          L13.blink(500)
