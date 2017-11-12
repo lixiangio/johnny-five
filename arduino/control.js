@@ -108,4 +108,4 @@ setInterval(function () {
    B11.lastState = B11.value
    App.action()
 
-}, 100)
+}, config.rate)

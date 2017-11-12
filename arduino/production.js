@@ -3,7 +3,7 @@ let { sensor: { 0: s0, 1: s1 } } = config
 let { S0, S1 } = Sensor
 let { A8, A9 } = Actuator
 
-let trend = 0 // 趋势，0、正常，1、升，-1、降
+let trend = 0 //趋势，0、正常，1、升，-1、降
 
 // 调节等待时间，以秒为单位
 let interval = 60 * 1000
@@ -78,7 +78,7 @@ module.exports = function () {
 
    }
 
-   // 正常范围内
+   // 正常范围
    else {
 
       // 由高位切换至正常范围
