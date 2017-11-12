@@ -33,10 +33,8 @@ B10.on("press", function () {
 B11.lastState = 0
 B11.lock = false
 B11.on("press", function () {
-
    // 记录按下时的时间
    B11.time = Date.now()
-
 })
 
 B11.on("hold", function () {
@@ -99,9 +97,7 @@ B11.on("hold", function () {
 })
 
 B11.on("release", function () {
-
    B11.lock = false
-
 })
 
 if (config.init) {
@@ -113,8 +109,6 @@ if (config.init) {
 }
 
 setInterval(function () {
-
    B11.lastState = B11.value
    App.action()
-
 }, config.rate)

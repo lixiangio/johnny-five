@@ -27,7 +27,7 @@
             "name": "水位传感器",
             "stroke": {
                 "min": 990,
-                "max": 991
+                "max": 992
             },
             "limit": {
                 "min": 85,
@@ -35,9 +35,9 @@
                 "expect": 90
             },
             "$limit": {
-                "min": 992,
-                "max": 992,
-                "expect": 992
+                "min": 991,
+                "max": 991,
+                "expect": 991
             }
         },
         "1": {
