@@ -43,7 +43,7 @@ B11.on("hold", function () {
 
    if (B11.lock === false) {
 
-      // 长按，表示模式切换
+      // 长按3秒，触发模式转换
       if (now - B11.time > 3000) {
 
          // 由适配模式切换到生产模式
@@ -51,12 +51,27 @@ B11.on("hold", function () {
 
             config.init = true
 
+            // 切换到生产模式前保存配置至文件
             let json = JSON.stringify(config, null, 4)
             fs.writeFile("./arduino/config.json", json, function (err) {
                if (err) {
                   return console.log(err)
                }
             })
+
+            // 更新传感器配置项
+            for (let pin in config.sensor) {
+               let item = config.sensor[pin]
+               if (item.limit) {
+                  let difference = item.stroke.max - item.stroke.min
+                  Sensor[`S${pin}`].limit = {
+                     min: item.stroke.min + Math.round(difference * (item.limit.min * 0.01)),
+                     max: item.stroke.min + Math.round(difference * (item.limit.max * 0.01)),
+                     expect: item.stroke.min + Math.round(difference * (item.limit.expect * 0.01)),
+                  }
+               }
+            }
+
             L12.off()
 
             if (B10.stop) {
@@ -76,28 +91,17 @@ B11.on("hold", function () {
             L12.on()
             App.action = App.calibrate
 
-            // 传感器初始化
+            // 初始化传感器配置项
             for (let pin in config.sensor) {
                let item = config.sensor[pin]
-               item.stroke = {
-                  min: 1024,
-                  max: 0,
-               }
-               if (item.limit) {
-                  let difference = item.stroke.max - item.stroke.min
-                  Sensor[`S${pin}`].limit = {
-                     min: item.stroke.min + Math.round(difference * (item.limit.min * 0.01)),
-                     max: item.stroke.min + Math.round(difference * (item.limit.max * 0.01)),
-                     expect: item.stroke.min + Math.round(difference * (item.limit.expect * 0.01)),
-                  }
-               }
+               item.stroke = { min: 1024, max: 0 }
             }
 
             console.log('切换为适配模式')
 
          }
 
-         // 每次触发后上锁，直到释放按钮后才解锁
+         // 每次触发后上锁，直到按钮释放时才解锁
          B11.lock = true
 
       }
