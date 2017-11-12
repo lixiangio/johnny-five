@@ -3,7 +3,7 @@ let { sensor: { 0: s0, 1: s1 } } = config
 let { S0, S1 } = Sensor
 let { A8, A9 } = Actuator
 
-let trend = 0 //趋势，0、正常，1、升，-1、降
+let status = 0 //趋势，0、正常，1、升，-1、降
 
 // 调节等待时间，以秒为单位
 let interval = 60 * 1000
@@ -17,12 +17,10 @@ let lastData = {
 
 module.exports = function () {
 
-   console.log(S0.limit)
-
    // 大于警戒值
    if (S0.value > S0.limit.max) {
 
-      trend = 1
+      status = 1
 
       // 电机行程保护
       if (S1.value >= s1.stroke.max) {
@@ -43,7 +41,7 @@ module.exports = function () {
    // 小于警戒值
    else if (S0.value < S0.limit.min) {
 
-      trend = -1
+      status = -1
 
       // 电机行程保护
       if (S1.value <= s1.stroke.min) {
@@ -80,13 +78,14 @@ module.exports = function () {
 
    }
 
-   // 正常范围
+   // 正常区域
    else {
 
       // 由高位切换至正常范围
-      if (trend === 1) {
+      if (status === 1) {
+         // 如果跨过期望值则停止
          if (S0.value < S0.limit.expect) {
-            trend = 0
+            status = 0
             if (A8.value === 1) {
                A8.low()
                A9.low()
@@ -95,9 +94,10 @@ module.exports = function () {
       }
 
       // 由低位切换至正常范围
-      else if (trend === -1) {
+      else if (status === -1) {
+         // 如果跨过期望值则停止
          if (S0.value > S0.limit.expect) {
-            trend = 0
+            status = 0
             if (A9.value === 1) {
                A8.low()
                A9.low()
@@ -115,6 +115,6 @@ module.exports = function () {
       log = '停'
    }
 
-   // console.log(log, '前池水位：' + S0.value, '阀门开度：' + S1.value, '趋势：' + trend, '私服电机反转：' + A8.value)
+   // console.log(log, '前池水位：' + S0.value, '阀门开度：' + S1.value, '趋势：' + status, '私服电机反转：' + A8.value)
 
 }

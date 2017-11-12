@@ -36,6 +36,7 @@ board.on("ready", async function () {
    for (let pin in config.sensor) {
       Sensor[`S${pin}`] = new five.Sensor(`A${pin}`)
       let item = config.sensor[pin]
+      // 将百分比limit转换为实际值，并赋值到对应的传感器实例上
       if (item.limit) {
          let difference = item.stroke.max - item.stroke.min
          Sensor[`S${pin}`].limit = {
