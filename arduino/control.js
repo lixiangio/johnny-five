@@ -88,6 +88,7 @@ B11.on("hold", function () {
 
          }
 
+         // 每次触发后上锁，直到释放按钮后才解锁
          B11.lock = true
 
       }
