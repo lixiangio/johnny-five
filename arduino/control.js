@@ -7,9 +7,7 @@ App.production = require("./production.js")
 App.calibrate = require("./calibrate.js")
 App.stop = require("./stop.js")
 
-B11.lastState = 0
-B11.lock = false
-
+B10.stop = false
 B10.on("press", function () {
 
    // 适配模式下禁止操作
@@ -19,10 +17,12 @@ B10.on("press", function () {
       if (App.action === App.production) {
          App.action = App.stop
          L13.blink(500)
+         B10.stop = true
          console.log("暂停")
       } else {
          App.action = App.production
          L13.stop().on()
+         B10.stop = false
          console.log("工作")
       }
 
@@ -30,6 +30,8 @@ B10.on("press", function () {
 
 })
 
+B11.lastState = 0
+B11.lock = false
 B11.on("press", function () {
 
    // 记录按下时的时间
@@ -57,8 +59,15 @@ B11.on("hold", function () {
                }
             })
             L12.off()
-            App.action = App.production
-            console.log('当前为生产模式')
+            
+            if (B10.stop) {
+               App.action = App.stop
+               console.log('切换为生产模式 - 暂停状态')
+            } else {
+               App.action = App.production
+               console.log('切换为生产模式 - 工作状态')
+            }
+            
 
          }
 
@@ -77,7 +86,7 @@ B11.on("hold", function () {
                }
             }
 
-            console.log('当前为适配模式')
+            console.log('切换为适配模式')
 
          }
 

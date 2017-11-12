@@ -1,71 +1,71 @@
 {
-   "init": true,
-   "rate": 100,
-   "button": {
-      "10": {
-         "name": "暂停开关",
-         "invert": true,
-         "pin": "10"
-      },
-      "11": {
-         "name": "适配开关",
-         "invert": true,
-         "pin": "11"
-      }
-   },
-   "led": {
-      "12": {
-         "name": "适配指示灯"
-      },
-      "13": {
-         "name": "工作指示灯",
-         "default": true
-      }
-   },
-   "sensor": {
-      "0": {
-         "name": "水位传感器",
-         "stroke": {
-            "min": 990,
-            "max": 992
-         },
-         "limit": {
-            "min": 85,
-            "max": 95,
-            "expect": 90
-         },
-         "$limit": {
-            "min": 991,
-            "max": 991,
-            "expect": 991
-         }
-      },
-      "1": {
-         "name": "阀门位置传感器",
-         "stroke": {
-            "min": 1012,
-            "max": 1013
-         },
-         "limit": {
-            "min": 85,
-            "expect": 90,
-            "max": 95
-         },
-         "$limit": {
-            "min": 1014,
-            "max": 1014,
-            "expect": 1014
-         }
-      }
-   },
-   "actuator": {
-      "8": {
-         "name": "私服电机反转",
-         "default": 0
-      },
-      "9": {
-         "name": "私服电机正转",
-         "default": 0
-      }
-   }
+    "init": true,
+    "rate": 100,
+    "button": {
+        "10": {
+            "name": "暂停按钮",
+            "invert": true,
+            "pin": "10"
+        },
+        "11": {
+            "name": "适配按钮",
+            "invert": true,
+            "pin": "11"
+        }
+    },
+    "led": {
+        "12": {
+            "name": "适配指示灯"
+        },
+        "13": {
+            "name": "工作指示灯",
+            "default": true
+        }
+    },
+    "sensor": {
+        "0": {
+            "name": "水位传感器",
+            "stroke": {
+                "min": 990,
+                "max": 991
+            },
+            "limit": {
+                "min": 85,
+                "max": 95,
+                "expect": 90
+            },
+            "$limit": {
+                "min": 992,
+                "max": 992,
+                "expect": 992
+            }
+        },
+        "1": {
+            "name": "阀门位置传感器",
+            "stroke": {
+                "min": 1012,
+                "max": 1014
+            },
+            "limit": {
+                "min": 85,
+                "expect": 90,
+                "max": 95
+            },
+            "$limit": {
+                "min": 1014,
+                "max": 1014,
+                "expect": 1014
+            }
+        }
+    },
+    "actuator": {
+        "8": {
+            "name": "私服电机反转",
+            "default": 0
+        },
+        "9": {
+            "name": "私服电机正转",
+            "default": 0
+        }
+    }
 }
