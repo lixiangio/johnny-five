@@ -78,7 +78,7 @@ module.exports = function () {
 
    }
 
-   // 正常区域
+   // 正常范围
    else {
 
       // 由高位切换至正常范围
