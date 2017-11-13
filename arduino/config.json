@@ -25,26 +25,26 @@
     "sensor": {
         "0": {
             "name": "水位传感器",
-            "stroke": {
+            "range": {
                 "min": 991,
                 "max": 992
             },
             "limit": {
-                "min": 85,
-                "max": 95,
-                "expect": 90
+                "min": 883,
+                "target": 905,
+                "max": 988
             }
         },
         "1": {
             "name": "阀门位置传感器",
-            "stroke": {
+            "threshold": {
                 "min": 1012,
                 "max": 1014
             },
             "limit": {
-                "min": 85,
-                "expect": 90,
-                "max": 95
+               "min": 883,
+               "target": 905,
+               "max": 988
             }
         }
     },

@@ -38,11 +38,11 @@ board.on("ready", async function () {
       let item = config.sensor[pin]
       // 将百分比limit转换为实际值，并赋值到对应的传感器实例上
       if (item.limit) {
-         let difference = item.stroke.max - item.stroke.min
+         let difference = item.range.max - item.range.min
          Sensor[`S${pin}`].limit = {
-            min: item.stroke.min + Math.round(difference * (item.limit.min * 0.01)),
-            max: item.stroke.min + Math.round(difference * (item.limit.max * 0.01)),
-            expect: item.stroke.min + Math.round(difference * (item.limit.expect * 0.01)),
+            min: item.range.min + Math.round(difference * (item.limit.min * 0.01)),
+            max: item.range.min + Math.round(difference * (item.limit.max * 0.01)),
+            expect: item.range.min + Math.round(difference * (item.limit.expect * 0.01)),
          }
       }
    }

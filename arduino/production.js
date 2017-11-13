@@ -17,13 +17,13 @@ let lastData = {
 
 module.exports = function () {
 
-   // 大于警戒值
+   // 超出警戒线
    if (S0.value > S0.limit.max) {
 
       status = 1
 
       // 电机行程保护
-      if (S1.value >= s1.stroke.max) {
+      if (S1.value >= s1.range.max) {
          if (A8.value === 1) {
             A8.low()
             A9.low()
@@ -38,13 +38,13 @@ module.exports = function () {
 
    }
 
-   // 小于警戒值
+   // 低于警戒值线
    else if (S0.value < S0.limit.min) {
 
       status = -1
 
       // 电机行程保护
-      if (S1.value <= s1.stroke.min) {
+      if (S1.value <= s1.range.min) {
          if (A9.value === 1) {
             A8.low()
             A9.low()
@@ -78,7 +78,7 @@ module.exports = function () {
 
    }
 
-   // 正常范围
+   // 正常区域
    else {
 
       // 由高位切换至正常范围

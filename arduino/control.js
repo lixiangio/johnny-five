@@ -63,11 +63,11 @@ B11.on("hold", function () {
             for (let pin in config.sensor) {
                let item = config.sensor[pin]
                if (item.limit) {
-                  let difference = item.stroke.max - item.stroke.min
+                  let difference = item.range.max - item.range.min
                   Sensor[`S${pin}`].limit = {
-                     min: item.stroke.min + Math.round(difference * (item.limit.min * 0.01)),
-                     max: item.stroke.min + Math.round(difference * (item.limit.max * 0.01)),
-                     expect: item.stroke.min + Math.round(difference * (item.limit.expect * 0.01)),
+                     min: item.range.min + Math.round(difference * (item.limit.min * 0.01)),
+                     max: item.range.min + Math.round(difference * (item.limit.max * 0.01)),
+                     expect: item.range.min + Math.round(difference * (item.limit.expect * 0.01)),
                   }
                }
             }
@@ -94,7 +94,7 @@ B11.on("hold", function () {
             // 初始化传感器配置项
             for (let pin in config.sensor) {
                let item = config.sensor[pin]
-               item.stroke = { min: 1024, max: 0 }
+               item.range = { min: 1024, max: 0 }
             }
 
             console.log('切换为适配模式')
