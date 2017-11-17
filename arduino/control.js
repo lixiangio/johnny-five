@@ -1,3 +1,5 @@
+"use strict"
+
 let fs = require("fs")
 let { config, Led, Button, Sensor } = App
 let { L12, L13 } = Led
@@ -30,7 +32,6 @@ B10.on("press", function () {
 
 })
 
-B11.lastState = 0
 B11.lock = false
 B11.on("press", function () {
    // 记录按下时的时间
@@ -58,19 +59,6 @@ B11.on("hold", function () {
                   return console.log(err)
                }
             })
-
-            // 更新传感器配置项
-            for (let pin in config.sensor) {
-               let item = config.sensor[pin]
-               if (item.limit) {
-                  let difference = item.range.max - item.range.min
-                  Sensor[`S${pin}`].limit = {
-                     min: item.range.min + Math.round(difference * (item.limit.min * 0.01)),
-                     max: item.range.min + Math.round(difference * (item.limit.max * 0.01)),
-                     expect: item.range.min + Math.round(difference * (item.limit.expect * 0.01)),
-                  }
-               }
-            }
 
             L12.off()
 
@@ -121,8 +109,3 @@ if (config.init) {
    // 适配模式
    App.action = App.calibrate
 }
-
-setInterval(function () {
-   B11.lastState = B11.value
-   App.action()
-}, config.rate)

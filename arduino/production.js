@@ -1,3 +1,5 @@
+"use strict"
+
 let { five, config, Led, Sensor, Actuator } = App
 let { sensor: { 0: s0, 1: s1 } } = config
 let { S0, S1 } = Sensor
@@ -17,8 +19,12 @@ let lastData = {
 
 module.exports = function () {
 
+   if (S1.value !== lastData.S1) {
+      App.socket.emit('news', { S1: S1.value });
+   }
+
    // 超出警戒线
-   if (S0.value > S0.limit.max) {
+   if (S0.value > s0.limit.max) {
 
       status = 1
 
@@ -39,7 +45,7 @@ module.exports = function () {
    }
 
    // 低于警戒值线
-   else if (S0.value < S0.limit.min) {
+   else if (S0.value < s0.limit.min) {
 
       status = -1
 
@@ -84,7 +90,7 @@ module.exports = function () {
       // 由高位切换至正常范围
       if (status === 1) {
          // 如果跨过期望值则停止
-         if (S0.value < S0.limit.expect) {
+         if (S0.value < s0.limit.expect) {
             status = 0
             if (A8.value === 1) {
                A8.low()
@@ -96,7 +102,7 @@ module.exports = function () {
       // 由低位切换至正常范围
       else if (status === -1) {
          // 如果跨过期望值则停止
-         if (S0.value > S0.limit.expect) {
+         if (S0.value > s0.limit.expect) {
             status = 0
             if (A9.value === 1) {
                A8.low()
@@ -107,6 +113,8 @@ module.exports = function () {
 
    }
 
+   let log = ''
+
    if (A8.value) {
       log = '加'
    } else if (A9.value) {
@@ -114,6 +122,9 @@ module.exports = function () {
    } else {
       log = '停'
    }
+
+   lastData.S0 = S0.value
+   lastData.S1 = S1.value
 
    // console.log(log, '前池水位：' + S0.value, '阀门开度：' + S1.value, '趋势：' + status, '私服电机反转：' + A8.value)
 

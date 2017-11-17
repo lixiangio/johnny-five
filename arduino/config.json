@@ -1,6 +1,6 @@
 {
     "init": true,
-    "rate": 100,
+    "wait": 100,
     "button": {
         "10": {
             "name": "暂停按钮",
@@ -37,7 +37,7 @@
         },
         "1": {
             "name": "阀门位置传感器",
-            "threshold": {
+            "range": {
                 "min": 1012,
                 "max": 1014
             },
