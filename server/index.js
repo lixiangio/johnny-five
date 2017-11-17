@@ -1,25 +1,24 @@
 let io = require('socket.io')()
+let batchImport = require('batch-import')
+
+let { controllers } = batchImport({
+   "controllers": {
+      "path": "server/controllers/"
+   }
+})
 
 io.on('connection', function (socket) {
 
-   let { Led, Button, Sensor, Actuator } = App
-   console.log(99)
-
-   socket.on('myEvent', function (data) {
-      console.log(data)
-   })
-
-   setInterval(function () {
-
-      socket.emit('news', {
-         S0: Sensor.S0.value,
-         S1: Sensor.S1.value
-      })
-
-   }, 100)
+   for (let key in controllers) {
+      let controller = controllers[key]
+      if (typeof controller === "function") {
+         controller(socket)
+      }
+   }
 
 })
 
+// webSocket在board ready事件触发后启动
 App.server = function () {
    io.listen(80)
 }
