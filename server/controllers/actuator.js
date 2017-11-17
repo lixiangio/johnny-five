@@ -6,13 +6,13 @@ module.exports = socket => {
       console.log(data)
    })
 
-   // setInterval(function () {
+   setInterval(function () {
 
-   //    socket.emit('sensor', {
-   //       S0: Sensor.S0.value,
-   //       S1: Sensor.S1.value
-   //    })
+      socket.emit('sensor', {
+         S0: Sensor.S0.value,
+         S1: Sensor.S1.value
+      })
 
-   // }, 100)
+   }, 100)
 
 }
