@@ -1,18 +1,6 @@
 "use strict"
 
-let config = require('./config.json')
-let five = require("johnny-five")
-let board = new five.Board()
-
-global.App = {
-   five,
-   board,
-   config,
-   Led: {},
-   Button: {},
-   Sensor: {},
-   Actuator: {},
-}
+let { config, board, } = App
 
 board.on("ready", function () {
 

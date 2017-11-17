@@ -20,7 +20,7 @@ let lastData = {
 module.exports = function () {
 
    if (S1.value !== lastData.S1) {
-      App.socket.emit('news', { S1: S1.value });
+      // App.socket.emit('news', { S1: S1.value });
    }
 
    // 超出警戒线

@@ -10,14 +10,12 @@
 
 // socket(server)
 
+// App.calibrate = require("./calibrate.js")
+let http = require('http')
+let socket = require('socket.io');
+let fs = require('fs');
 
-var app = require('http').createServer(handler)
-var io = require('socket.io')(app);
-var fs = require('fs');
-
-app.listen(3000);
-
-function handler(req, res) {
+let app = http.createServer((req, res) => {
    fs.readFile(__dirname + '/index.html',
       function (err, data) {
          if (err) {
@@ -28,12 +26,16 @@ function handler(req, res) {
          res.writeHead(200);
          res.end(data);
       });
-}
+})
+
+app.listen(3000);
+
+let io = socket(app);
 
 io.on('connection', function (socket) {
 
    App.socket = socket
-   
+
    socket.on('myEvent', function (data) {
       console.log(data);
    });
