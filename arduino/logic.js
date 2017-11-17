@@ -17,7 +17,7 @@ let lastData = {
    date: new Date(),//调整时间
 }
 
-module.exports = function () {
+App.logic = function () {
 
    if (S1.value !== lastData.S1) {
       // App.socket.emit('news', { S1: S1.value });

@@ -1,5 +1,4 @@
 {
-    "init": true,
     "wait": 100,
     "button": {
         "10": {

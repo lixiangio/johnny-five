@@ -6,6 +6,7 @@ global.App = {
    config,
    five,
    board,
+   run: false,
    Led: {},
    Button: {},
    Sensor: {},
