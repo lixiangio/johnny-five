@@ -1,6 +1,5 @@
 "use strict"
 
-let fs = require("fs")
 let { config, Led, Button, Sensor } = App
 let { L12, L13 } = Led
 let { B10, B11 } = Button
