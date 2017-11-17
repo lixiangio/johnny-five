@@ -20,4 +20,7 @@ board.on("ready", function () {
       }
    })
 
+   // 启用webSocket接口
+   App.server()
+
 })
