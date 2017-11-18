@@ -1,7 +1,7 @@
 {
    "verbose": true,
    "ignore": [
-      "arduino/config.json",
+      "config.json",
       "node_modules/*"
    ]
 }

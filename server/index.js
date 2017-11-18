@@ -7,6 +7,7 @@ let { controllers } = batchImport({
    }
 })
 
+// 用户建立连接
 io.on('connection', function (socket) {
 
    for (let key in controllers) {
@@ -16,7 +17,16 @@ io.on('connection', function (socket) {
       }
    }
 
+   // console.log(io.sockets.sockets)
+
 })
+
+
+
+io.use(function (socket, next) {
+   // console.log(socket)
+   next();
+});
 
 // webSocket在board ready事件触发后启动
 App.server = function () {
