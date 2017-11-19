@@ -19,11 +19,11 @@ let lastData = {
 
 App.logic = function () {
 
-   if (S1.value !== lastData.S1) {
-      // App.socket.emit('news', { S1: S1.value });
-   }
+   // if (S1.value !== lastData.S1) {
+   //    // App.socket.emit('news', { S1: S1.value });
+   // }
 
-   // 超出警戒线
+   // 高于正常范围
    if (S0.value > s0.limit.max) {
 
       status = 1
@@ -44,7 +44,7 @@ App.logic = function () {
 
    }
 
-   // 低于警戒值线
+   // 低于正常范围
    else if (S0.value < s0.limit.min) {
 
       status = -1
@@ -84,7 +84,7 @@ App.logic = function () {
 
    }
 
-   // 正常区域
+   // 正常范围
    else {
 
       // 由高位切换至正常范围
@@ -101,7 +101,7 @@ App.logic = function () {
 
       // 由低位切换至正常范围
       else if (status === -1) {
-         // 如果跨过期望值则停止
+         // 如果跨过理想值则停止
          if (S0.value > s0.limit.expect) {
             status = 0
             if (A9.value === 1) {

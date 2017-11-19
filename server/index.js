@@ -10,18 +10,17 @@ let { controllers } = batchImport({
 // 用户建立连接
 io.on('connection', function (socket) {
 
-   for (let key in controllers) {
-      let controller = controllers[key]
-      if (typeof controller === "function") {
-         controller(socket)
-      }
-   }
-
-   // console.log(io.sockets.sockets)
+   console.log("连接成功")
 
 })
 
 
+// for (let key in controllers) {
+//    let controller = controllers[key]
+//    if (typeof controller === "function") {
+//       controller(socket)
+//    }
+// }
 
 io.use(function (socket, next) {
    // console.log(socket)
@@ -30,5 +29,5 @@ io.use(function (socket, next) {
 
 // webSocket在board ready事件触发后启动
 App.server = function () {
-   io.listen(80)
+   // io.listen(80)
 }
