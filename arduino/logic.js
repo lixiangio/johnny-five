@@ -6,11 +6,13 @@ let { S0, S1 } = Sensor
 let { A8, A9 } = Actuator
 
 S0.status = 0 // 状态切换，0、正常，1、升，-1、降
-S0.lastStatus = 0 // 记录切换为正常状态之前的状态
-S0.lastTime = Date.now() // 记录切换为正常状态时的时间戳
+// S0.lastStatus = 0 // 记录切换为正常状态之前的状态
+// S0.lastTime = Date.now() // 记录切换为正常状态时的时间戳
 
-// 调节等待时间，以秒为单位
-let interval = 60 * 1000
+let interval = 60 * 1000// 调整间隔周期
+let lastTime = 0 // 上次调整时间
+let lastValue = 0 // 记录上次调整值
+let difference = (s1.limit.max - s1.limit.min) / 10 // 差值计算
 
 App.logic = function () {
 
@@ -19,7 +21,7 @@ App.logic = function () {
 
       S0.status = 1
 
-      // 电机行程保护
+      // 电机最大行程保护
       if (S1.value >= s1.range.max) {
          if (A8.value === 1) {
             A8.low()
@@ -28,9 +30,19 @@ App.logic = function () {
          return
       }
 
-      if (A8.value === 0) {
-         A8.high()
-         A9.low()
+      // 每间隔1分钟触发一次
+      let nowTime = Date.now()
+      if (nowTime - lastTime > interval) {
+         // 如果前后对比，趋势为升或持平则减
+         if (S0.value - lastValue >= 0) {
+            if (S1.value - S1.lastValue <= difference) {
+               A8.high()
+            } else {
+               A8.low()
+               lastTime = nowTime// 时间锁
+               S1.lastValue = S1.value
+            }
+         }
       }
 
    }
