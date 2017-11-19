@@ -5,9 +5,9 @@ let { sensor: { 0: s0, 1: s1 } } = config
 let { S0, S1 } = Sensor
 let { A8, A9 } = Actuator
 
-S0.status = 0 //状态切换，0、正常，1、升，-1、降
-S0.lastStatus = 0 //记录切换为正常状态之前的状态
-S0.lastTime = Date.now() //记录切换为正常状态时的时间戳
+S0.status = 0 // 状态切换，0、正常，1、升，-1、降
+S0.lastStatus = 0 // 记录切换为正常状态之前的状态
+S0.lastTime = Date.now() // 记录切换为正常状态时的时间戳
 
 // 调节等待时间，以秒为单位
 let interval = 60 * 1000
@@ -78,7 +78,7 @@ App.logic = function () {
    // 公差范围内
    else {
 
-      // 由高于公差切换至正常公差内
+      // 由高于公差切换至正常公差
       if (S0.status === 1) {
          // 如果越过目标值则切换到正常状态
          if (S0.value < s0.limit.expect) {
@@ -92,7 +92,7 @@ App.logic = function () {
          }
       }
 
-      // 由低于公差切换至正常公差内
+      // 由低于公差切换至正常公差
       else if (S0.status === -1) {
          // 如果越过目标值则切换到正常状态
          if (S0.value > s0.limit.expect) {
