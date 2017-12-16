@@ -1,57 +1,53 @@
 {
-    "wait": 100,
-    "button": {
-        "10": {
-            "name": "暂停按钮",
-            "invert": true,
-            "pin": "10"
-        },
-        "11": {
-            "name": "适配按钮",
-            "invert": true,
-            "pin": "11"
-        }
-    },
-    "led": {
-        "12": {
-            "name": "工作指示灯",
-            "default": true
-        }
-    },
-    "sensor": {
-        "0": {
-            "name": "水位传感器",
-            "range": {
-                "min": 1005,
-                "max": 1006
-            },
-            "limit": {
-                "min": 883,
-                "target": 905,
-                "max": 988
-            }
-        },
-        "1": {
-            "name": "阀门位置传感器",
-            "range": {
-                "min": 974,
-                "max": 976
-            },
-            "limit": {
-                "min": 883,
-                "target": 905,
-                "max": 988
-            }
-        }
-    },
-    "actuator": {
-        "8": {
-            "name": "1#私服电机反转",
-            "default": 0
-        },
-        "9": {
-            "name": "1#私服电机正转",
-            "default": 0
-        }
-    }
+   "wait": 100,
+   "button": {
+      "10": {
+         "name": "暂停按钮",
+         "invert": true,
+         "pin": "10"
+      },
+      "11": {
+         "name": "适配按钮",
+         "invert": true,
+         "pin": "11"
+      }
+   },
+   "led": {
+      "12": {
+         "name": "工作指示灯",
+         "default": true
+      }
+   },
+   "sensor": {
+      "0": {
+         "name": "水位传感器",
+         "range": {
+            "min": 1005,
+            "max": 1006
+         },
+         "limit": {
+            "min": 883,
+            "target": 905,
+            "max": 988
+         }
+      },
+      "1": {
+         "name": "阀门位置传感器",
+         "series": 10,
+         "range": {
+            "min": 12,
+            "max": 976
+         }
+      }
+   },
+   "actuator": {
+      "8": {
+         "name": "1#私服电机反转",
+         "default": 0
+      },
+      "9": {
+         "name": "1#私服电机正转",
+         "default": 0
+      }
+   }
 }

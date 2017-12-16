@@ -12,22 +12,21 @@ io.on('connection', function (socket) {
 
    console.log("连接成功")
 
+   for (let key in controllers) {
+      let controller = controllers[key]
+      if (typeof controller === "function") {
+         controller(socket)
+      }
+   }
+
 })
 
 
-// for (let key in controllers) {
-//    let controller = controllers[key]
-//    if (typeof controller === "function") {
-//       controller(socket)
-//    }
-// }
-
 io.use(function (socket, next) {
-   // console.log(socket)
    next();
 });
 
 // webSocket在board ready事件触发后启动
 App.server = function () {
-   // io.listen(80)
+   io.listen(80)
 }

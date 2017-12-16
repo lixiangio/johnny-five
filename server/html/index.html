@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <meta charset="utf-8">
+   <title>测试</title>
+   <script src="./socket.io.js"></script>
+   <script>
+      
+      let socket = io('http://localhost')
+
+      socket.emit('config', {
+         "11": {
+            "name": "适配按钮",
+            "invert": true,
+            "pin": "11"
+         }
+      })
+
+      socket.on('sensor', function (data) {
+         console.log(data);
+      })
+
+   </script>
+</head>
+
+<body>
+   <h1>测试</h1>
+</body>
+
+</html>
