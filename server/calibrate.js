@@ -4,22 +4,20 @@ let { S0, S1 } = Sensor
 
 module.exports = function () {
 
-   if (S0.value < s0.range.min) {
-      s0.range.min = S0.value
+   if (S0.value < s0.limit.min) {
+      s0.limit.min = S0.value
    }
 
-   if (S0.value > s0.range.max) {
-      s0.range.max = S0.value
+   if (S0.value > s0.limit.max) {
+      s0.limit.max = S0.value
    }
 
-   if (S1.value < s1.range.min) {
-      s1.range.min = S1.value
+   if (S1.value < s1.limit.min) {
+      s1.limit.min = S1.value
    }
 
-   if (S1.value > s1.range.max) {
-      s1.range.max = S1.value
+   if (S1.value > s1.limit.max) {
+      s1.limit.max = S1.value
    }
-
-   console.log(s0.range)
 
 }

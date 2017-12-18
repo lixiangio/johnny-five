@@ -21,22 +21,16 @@
    "sensor": {
       "0": {
          "name": "水位传感器",
-         "range": {
-            "min": 1005,
-            "max": 1006
-         },
          "limit": {
-            "min": 883,
-            "target": 905,
-            "max": 988
+            "min": 533,
+            "max": 4000
          }
       },
       "1": {
          "name": "阀门位置传感器",
-         "series": 10,
-         "range": {
-            "min": 12,
-            "max": 976
+         "limit": {
+            "min": 200,
+            "max": 4000
          }
       }
    },

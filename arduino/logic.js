@@ -5,53 +5,27 @@ let { sensor: { 0: s0, 1: s1 } } = config
 let { S0, S1 } = Sensor
 let { A8, A9 } = Actuator
 
-let lastTime = Date.now() // 上次调节时间戳
-let interval = 60 * 1000// 调节间隔周期
-let lock = false// 状态锁
-
 // 水位传感器初始值
-S0.status = 0 // 状态切换，0、正常，1、升，-1、降
-S0.lastStatus = 0 // 切换为正常状态之前的状态
-S0.lastValue = 0 // 上次调整值
+S0.status = 0 // 状态切换，0:正常，1:加，-1:减
+S0.model = false // 模式开关，false：监听模式，true:控制模式
 
-// 执行器传感器初始值
-S1.lastValue = 0 // 上次调整值
-
-
-let xx = (s1.range.max - s1.range.min) / s1.series
-console.log(xx)
+let d0 = s0.limit.difference / 100
+let d1 = s1.limit.difference / 100
 
 App.logic = function () {
-
-   // 时间周期，每间隔60s触发一次
-   let nowTime = Date.now()
-   if (nowTime - lastTime < interval) {
-      if (lock) return
-   } else {
-      lock = !lock
-   }
-
-   lastTime = nowTime
 
    // 高于上限
    if (S0.value > s0.limit.max) {
 
-      S0.status = 1
-
-      // 趋势判断，如果前后对比趋势为升或持平则减
-      if (S0.value - S0.lastValue >= 0) {
-         // 执行器最大行程保护
-         if (S1.value >= s1.range.max) {
-            if (A8.value === 1) {
-               A8.low()
-               A9.low()
-            }
-            return
-         }
-
-
+      // 执行器最大行程保护
+      if (S1.value >= s1.limit.max) {
+         A8.low()
+         A9.low()
+      }
+      // 减水
+      else {
          A8.high()
-         S1.lastValue = S1.value
+         A9.low()
       }
 
    }
@@ -59,56 +33,51 @@ App.logic = function () {
    // 低于下限
    else if (S0.value < s0.limit.min) {
 
-      S0.status = -1
-
       // 执行器最小行程保护
-      if (S1.value <= s1.range.min) {
-         if (A9.value === 1) {
-            A8.low()
-            A9.low()
-         }
-         return
+      if (S1.value <= s1.limit.min) {
+         A8.low()
+         A9.low()
       }
-
-      // 等待状态，小于60秒不执行
-      // let date = new Date()
-      // if (date - lastData.date < interval) {
-      //    return
-      // }
-
-      if (A9.value === 0) {
+      // 减水
+      else {
          A8.low()
          A9.high()
       }
 
    }
 
-   // 正常范围内
+   // 正常范围
    else {
 
-      // 由上限切换至正常范围
-      if (S0.status === 1) {
-         // 如果越过目标值则切换到正常状态
-         if (S0.value < s0.limit.expect) {
-            S0.status = 0
-            S0.lastStatus = 1
-            if (A8.value === 1) {
-               A8.low()
-               A9.low()
-            }
-         }
-      }
+      // 使用等比例公差调节法，在允许范围内保持同步
+      let proportion0 = (S0.value - s0.limit.min) / d0
+      let proportion1 = (S1.value - s1.limit.min) / d1
+      let tolerance = proportion0 - proportion1
+      console.log(proportion0, proportion1, tolerance, S0.lock)
 
-      // 由下限切换至正常范围
-      else if (S0.status === -1) {
-         // 如果越过目标值则切换到正常状态
-         if (S0.value > s0.limit.expect) {
-            S0.status = 0
-            S0.lastStatus = -1
-            if (A9.value === 1) {
-               A8.low()
-               A9.low()
-            }
+      // 模式切换
+      if (S0.model) {
+         // 监听模式，浮动公差为+-10%
+         console.log("监")
+         if (tolerance > 10) {
+            S0.model = false
+         } else if (tolerance < -10) {
+            S0.model = false
+         }
+      } else {
+         // 调节模式，浮动公差为+-2%
+         if (tolerance > 2) {
+            A8.low()
+            A9.high()
+            console.log("加")
+         } else if (tolerance < -2) {
+            A8.high()
+            A9.low()
+            console.log("减")
+         } else {
+            A8.low()
+            A9.low()
+            S0.model = true
          }
       }
 

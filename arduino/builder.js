@@ -3,7 +3,7 @@
 /**
  * 根据配置文件创建传感器对象
  */
-let { five, config, Led, Button, Sensor, Actuator } = App
+let { five, Led, Button, Sensor, Actuator } = App
 
 let method = {
    // 指示灯
@@ -39,7 +39,6 @@ let method = {
       }
    }
 }
-
 
 module.exports = configs => {
    for (let name in configs) {
