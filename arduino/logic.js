@@ -53,9 +53,9 @@ App.logic = function () {
       let proportion0 = (S0.value - s0.limit.min) / d0
       let proportion1 = (S1.value - s1.limit.min) / d1
       let tolerance = proportion0 - proportion1
-      console.log(proportion0, proportion1, tolerance, S0.lock)
+      console.log(proportion0, proportion1, tolerance, S0.model)
 
-      // 模式切换
+      // 模式切换，防止临界点频繁调节
       if (S0.model) {
          // 监听模式，浮动公差为+-10%
          console.log("监")
