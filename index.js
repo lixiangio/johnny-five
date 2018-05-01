@@ -20,5 +20,5 @@ tools.sensor(config.sensor)
 // Arduino
 require("./arduino/")
 
-// Web控制台
+// Web Server
 require("./server/")
